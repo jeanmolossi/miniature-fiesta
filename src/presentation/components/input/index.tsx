@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
+import { randID } from "../helpers/random-component-id";
 
 interface InputProps  {
 	id?: string;
@@ -9,18 +10,13 @@ interface InputProps  {
 	type?: 'text' | 'password' | 'email'
 }
 
-const randID = () => (Math.random() * 1e5).toString(16).replace(/[\.]/, '-')
-
-const Input = React.forwardRef<
-	HTMLInputElement,
-	InputProps & ReturnType<UseFormRegister<any>>
->(({
+function Input({
 	id = randID(),
 	label = 'Label',
 	type = 'text',
 	error,
 	...props
-}, ref) => {
+}: InputProps, ref) {
 	return (
 		<div className="col-span-6">
 			<label
@@ -40,9 +36,7 @@ const Input = React.forwardRef<
 			<WithError error={error} />
 		</div>
 	);
-})
-
-export default Input
+}
 
 function WithError({ error }) {
 	if (!error)
@@ -54,3 +48,10 @@ function WithError({ error }) {
 		</div>
 	)
 }
+
+const InputRef = React.forwardRef<
+	HTMLInputElement,
+	InputProps & ReturnType<UseFormRegister<any>>
+>(Input)
+
+export default InputRef

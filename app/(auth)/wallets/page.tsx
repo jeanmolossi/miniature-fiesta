@@ -3,11 +3,12 @@ import Heading from "@/presentation/components/heading"
 import { Wallet } from "domain/wallets/wallet"
 
 export default async function WalletsPage() {
-	const { payments } = await getWallets()
+	const { payments, meta } = await getWallets()
 
-	console.log({payments})
+	if (meta.total === 0)
+		return <div><span role={'banner'}>Nenhuma carteira encontrada</span></div>
 
-	const columns = Math.min(4, payments.length)
+	const columns = Math.min(4, payments.length);
 
 	return (
 		<div className={`grid grid-cols-${columns} gap-4`}>
