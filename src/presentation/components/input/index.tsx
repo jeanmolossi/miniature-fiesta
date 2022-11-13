@@ -8,6 +8,8 @@ interface InputProps  {
 	label: string;
 	error?: string;
 	type?: 'text' | 'password' | 'email'
+	className?: string;
+	containerClassName?: string;
 }
 
 function Input({
@@ -15,10 +17,12 @@ function Input({
 	label = 'Label',
 	type = 'text',
 	error,
+	className = '',
+	containerClassName = '',
 	...props
 }: InputProps, ref) {
 	return (
-		<div className="col-span-6">
+		<div className={`col-span-6 ${containerClassName}`}>
 			<label
 				htmlFor={id}
 				className="block text-sm font-medium text-gray-700"
@@ -27,7 +31,7 @@ function Input({
 			</label>
 			<input
 				id={id}
-				className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+				className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${className}`}
 				{...props}
 				ref={ref}
 				type={type}

@@ -1,5 +1,6 @@
 import { getWallets } from "@/data/usecase/get-wallets"
 import Heading from "@/presentation/components/heading"
+import { RenderIf } from "@/presentation/components/render-if"
 import { Wallet } from "domain/wallets/wallet"
 
 export default async function WalletsPage() {
@@ -12,9 +13,9 @@ export default async function WalletsPage() {
 
 	return (
 		<div className={`grid grid-cols-${columns} gap-4`}>
-			{payments.length
-				? (payments.map(WalletCard))
-				: null}
+			<RenderIf condition={Boolean(payments.length)}>
+				{payments.map(WalletCard)}
+			</RenderIf>
 		</div>
 	)
 }
