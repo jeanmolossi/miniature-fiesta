@@ -1,8 +1,8 @@
 'use client';
 
-import '@/presentation/styles/global.scss'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import '@/presentation/styles/global.css'
 
 export interface RootLayoutProps {
 	children: React.ReactNode;

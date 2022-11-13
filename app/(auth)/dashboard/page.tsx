@@ -2,7 +2,9 @@ import Link from 'next/link'
 import { getMyAccounts } from '@/data/usecase/my-accounts'
 import { Account } from 'domain/accounts/account'
 import Heading from '@/presentation/components/heading'
-import './dashboard.scss';
+import './dashboard.css';
+
+export const revalidate = 15
 
 export default async function DashboardPage() {
 	const data = await getMyAccounts()

@@ -1,13 +1,13 @@
 /* eslint-disable react/display-name */
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { randID } from "../helpers/random-component-id";
+import { WithError } from "./input-error";
 
-interface InputProps  {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	id?: string;
 	label: string;
 	error?: string;
-	type?: 'text' | 'password' | 'email'
 	className?: string;
 	containerClassName?: string;
 }
@@ -21,6 +21,10 @@ function Input({
 	containerClassName = '',
 	...props
 }: InputProps, ref) {
+	const ring = Boolean(error)
+		? 'border-2 border-red-600 ring-red-600'
+		: 'border-2 border-transparent focus:border-indigo-500 focus:ring-indigo-500'
+
 	return (
 		<div className={`col-span-6 ${containerClassName}`}>
 			<label
@@ -31,7 +35,8 @@ function Input({
 			</label>
 			<input
 				id={id}
-				className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${className}`}
+				className={`mt-1 block w-full rounded-md shadow-sm ${ring} sm:text-sm ${className}`}
+				aria-invalid={Boolean(error)}
 				{...props}
 				ref={ref}
 				type={type}
@@ -42,20 +47,10 @@ function Input({
 	);
 }
 
-function WithError({ error }) {
-	if (!error)
-		return null
-
-	return (
-		<div className="block text-sm font-medium text-red-500 mt-2">
-			{error}
-		</div>
-	)
-}
-
 const InputRef = React.forwardRef<
 	HTMLInputElement,
 	InputProps & ReturnType<UseFormRegister<any>>
 >(Input)
 
 export default InputRef
+export { default as CurrencyInput } from './currency-input'

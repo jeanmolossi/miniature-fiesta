@@ -36,6 +36,7 @@ function ButtonGroup({
 	})
 
 	const options = mapDefaultOptions(defaultOptions)
+	const labelID = label.toLowerCase().replace(/[\._]/gm, '-');
 
 	const onChangeInternal = useCallback((value: string) => {
 		if (onChange || onBlur) {
@@ -67,10 +68,19 @@ function ButtonGroup({
 			/>
 
 			<RenderIf condition={Boolean(label)}>
-				<label id={`${label.toLowerCase().replace(/[\._]/gm, '-')}`}>{label}</label>
+				<label
+					id={labelID}
+					className="text-sm font-medium text-gray-700 mb-1"
+				>
+					{label}
+				</label>
 			</RenderIf>
 
-			<div className={`bg-sky-600 text-white rounded-lg ${containerClassName} ring-1 border ${ring}`}>
+			<div className={
+				`bg-sky-600 text-white rounded-lg ring-1 border shrink` +
+				`grow-0 w-fit ` +
+				`${ring} ${containerClassName}`
+			}>
 				{options.map(({ label, value }, key) => (
 					<Button
 						label={label}

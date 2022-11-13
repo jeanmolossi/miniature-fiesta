@@ -12,13 +12,12 @@ interface CreateTransactionPayload {
 
 export async function createTransaction(body: CreateTransactionPayload) {
 	const { isError, data } = await Fetcher
-		.baseURL(constants.API_BASE_URL)
+		.baseURL()
 		.setBody(body)
-		.post<Transaction>('/transactions')
+		.post<Transaction>('/api/create-transaction')
 
 	if (isError)
 		throw new Error(data as any)
-
 
 	return data;
 }

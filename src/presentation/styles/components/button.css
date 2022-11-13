@@ -1,0 +1,80 @@
+.btn {
+	@apply
+		inline-flex
+		justify-center
+		col-span-1
+		border
+		border-transparent
+		shadow-sm
+		text-white
+		focus:outline-none
+		focus:ring-2
+		focus:ring-offset-2;
+}
+
+.btn__indigo {
+	@apply
+		btn
+		bg-indigo-600
+		hover:bg-indigo-700
+		focus:ring-indigo-500 !important;
+}
+
+.btn__rose {
+	@apply
+		btn
+		bg-rose-600
+		hover:bg-rose-700
+		focus:ring-rose-400 !important;
+}
+
+.btn__amber {
+	@apply
+		btn
+		bg-amber-600
+		hover:bg-amber-700
+		focus:ring-amber-400 !important;
+}
+
+.btn__cyan {
+	@apply
+		btn
+		bg-cyan-600
+		hover:bg-cyan-700
+		focus:ring-cyan-400 !important;
+}
+
+.btn__green {
+	@apply
+		btn
+		bg-green-600
+		hover:bg-green-700
+		focus:ring-green-400 !important;
+}
+
+.btn_size__sm {
+	@apply
+		rounded-md
+		py-1
+		px-2
+		text-sm
+		font-medium;
+}
+
+.btn_size__md {
+	@apply
+		rounded-lg
+		py-2
+		px-4
+		text-base
+		font-medium;
+}
+
+.btn_size__lg {
+	@apply
+		rounded-xl
+		py-3
+		px-5
+		text-lg
+		font-medium;
+}

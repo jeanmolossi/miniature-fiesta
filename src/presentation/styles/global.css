@@ -7,4 +7,5 @@ html, body {
 	min-height: 100vh;
 }
 
-@import "/src/presentation/components/load-bars/bars-loader.scss";
+@import './components/button.css';
+@import './components/load-bars.css';

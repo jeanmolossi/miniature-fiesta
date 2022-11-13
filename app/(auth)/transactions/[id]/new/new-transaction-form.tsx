@@ -10,8 +10,11 @@ import { Wallet } from "domain/wallets/wallet";
 import { createTransaction } from "@/data/usecase/create-transaction";
 import { TransactionType } from "domain/transactions/transaction";
 import { toast } from "react-toastify";
-import InputRef from "@/presentation/components/input";
+import Input, { CurrencyInput } from "@/presentation/components/input";
 import ButtonGroup from "@/presentation/components/button-group";
+import Heading from "@/presentation/components/heading";
+import Button from "@/presentation/components/button";
+import { useRouter } from "next/navigation";
 
 interface NewTransactionFormProps {
 	payments: Wallet[]
@@ -23,7 +26,7 @@ interface NewTransactionPayload {
 	payment: string;
 	category: string;
 	type: TransactionType;
-	value: number;
+	value: string;
 }
 
 export default function NewTransactionForm({
@@ -34,28 +37,38 @@ export default function NewTransactionForm({
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset
 	} = useForm<NewTransactionPayload>({ resolver: addTransactionResolver })
+
+	const { replace } = useRouter()
 
 	const onSubmit: SubmitHandler<NewTransactionPayload> = useCallback(async (data) => {
 		try {
 			const { category, payment, reference, type, value } = data;
-			const trasaction = await createTransaction({
+			await createTransaction({
 				reference,
 				type,
-				value,
+				value: +value
+					.replace(/\D/gmi, '')
+					.replace(',', '.'),
 				category_id: category,
 				wallet_id: payment
 			})
+
+			reset()
+			replace('/dashboard')
 		} catch (e) {
 			toast.error(e.message ?? e)
 		}
-	}, [])
+	}, [reset, replace])
 
 	return (
 		<form
 			className="grid  gap-4"
 			onSubmit={handleSubmit(onSubmit)}
 		>
+			<Heading as="h3">Adicionar nova transação</Heading>
+
 			<div className="grid grid-cols-6 sm:grid-cols-12 gap-4">
 				<Select
 					data={payments}
@@ -77,41 +90,50 @@ export default function NewTransactionForm({
 					error={errors.category?.message as string}
 				/>
 
-				<InputRef
+				<Input
 					label="Referência"
 					className="p-1"
 					{...register('reference')}
 					error={errors.reference?.message as string}
 				/>
 
-				<InputRef
+				<CurrencyInput
 					label="Valor"
-					className="p-1"
+					className="p-1 text-right"
 					{...register('value')}
-					type="text"
+					type="number"
 					error={errors.value?.message as string}
 				/>
 
 				<div className="col-span-6">
 					<ButtonGroup
+						label="Tipo da transação"
 						options={[
 							{ label: 'Pagamento', value: TransactionType.EXPENSE },
 							{ label: 'Recebido', value: TransactionType.INCOME },
-							{ label: 'Recebido', value: 'r2' },
 						]}
+						defaultValue={TransactionType.EXPENSE}
 						{...register('type')}
 						error={errors.type?.message as string}
 					/>
 				</div>
 			</div>
 
-			<button type="submit">OK</button>
+			<Button type="submit">
+				Adicionar
+			</Button>
 		</form>
 	)
 }
 
 const addTransactionResolver = yupResolver(
 	yup.object({
+		reference: yup
+			.string()
+			.required('Dê uma anotação de referência para a transação'),
+		value: yup
+			.string()
+			.required('O valor da transação é obrigatório'),
 		payment: yup
 			.string()
 			.required('Você deve selecionar uma carteira'),

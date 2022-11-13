@@ -1,5 +1,4 @@
 import constants from "@/constants";
-import { parseHeaders } from "@/data/helpers/api-headers";
 import { Fetcher } from "@/data/helpers/fetcher";
 import { NextApiResponse } from "next";
 import { NextRequest } from "next/server";
