@@ -15,8 +15,8 @@ export default async function Layout({ children }: AuthLayoutProps) {
 		redirect('/login')
 
 	return (
-		<div className="grid grid-cols-12 min-h-screen">
-			<div className="col-span-2 p-4">
+		<div className="grid grid-cols-12 min-h-screen bg-gray-100">
+			<div className="hidden md:block col-span-2 p-4 bg-white">
 				<Heading as="h3" className="row-span-1">Miniature Fiesta</Heading>
 
 				<div className="flex flex-1 flex-col items-stretch gap-4">
@@ -28,11 +28,7 @@ export default async function Layout({ children }: AuthLayoutProps) {
 				</div>
 			</div>
 
-			<div className="grid col-span-10 p-4 bg-gray-100 grid-rows-[6rem,auto]">
-				<nav className="grid grid-cols-12">
-					Nav
-				</nav>
-
+			<div className="grid col-span-12 md:col-span-10 p-4">
 				{children}
 			</div>
 		</div>
