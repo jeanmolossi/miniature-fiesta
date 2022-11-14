@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	box-sizing: border-box;
+}
+
 html, body {
 	width: 100vw;
 	min-height: 100vh;
+	overflow-x: hidden;
 }
 
 @import './components/button.css';
