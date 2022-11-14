@@ -21,7 +21,7 @@ export default async function Layout({ children }: AuthLayoutProps) {
 
 				<div className="flex flex-1 flex-col items-stretch gap-4">
 					<Link href={"/dashboard"}>Dashboard</Link>
-					<Link href={"/wallets"}>Carteiras</Link>
+					<Link href={"/wallets"}>Meios de pagamento</Link>
 					<Link href={"/transactions"}>Transações</Link>
 
 					<LogoutButton />
