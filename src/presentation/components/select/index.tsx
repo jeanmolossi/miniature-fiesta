@@ -6,7 +6,7 @@ import { RenderIf } from "../render-if";
 
 interface SelectProps<T extends { id: string; name: string }> {
 	data: T[]
-	label: string;
+	label?: string;
 	name?: string;
 	placeholder?: string;
 	error?: string;
@@ -20,9 +20,9 @@ interface SelectProps<T extends { id: string; name: string }> {
 
 function Select<T extends { id: string; name: string }>({
 	data,
-	label,
+	label = '',
 	name,
-	placeholder = `Selecione ${label.toLowerCase()}`,
+	placeholder = `Selecione ${label ? label.toLowerCase() : 'uma opção'}`,
 	error = '',
 	emptyDataMessage = 'No data results',
 	onClick,
@@ -73,8 +73,11 @@ function Select<T extends { id: string; name: string }>({
 				ref={ref}
 			/>
 
-			<label htmlFor={label} className="block text-sm font-medium text-gray-700">{label}</label>
-			<div className="relative mt-1">
+			<RenderIf condition={Boolean(label)}>
+				<label htmlFor={label} className="block text-sm font-medium text-gray-700">{label}</label>
+			</RenderIf>
+
+			<div className="relative">
 				<button
 					id={label}
 					onClick={toggle}
