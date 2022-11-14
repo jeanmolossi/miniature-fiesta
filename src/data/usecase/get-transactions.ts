@@ -11,19 +11,34 @@ interface TransactionList {
 
 export interface GetTransactionFilters {
 	account?: string;
+	page?: number;
+	per_page?: number;
+	sort?: string;
+	start_date?: string;
 }
 
-export async function getTransactions({ account }: GetTransactionFilters) {
+export async function getTransactions({
+	account,
+	page = 1,
+	per_page = 15,
+	sort = 'created_at,desc',
+	start_date
+}: GetTransactionFilters) {
 	const options = {}
 
 	if (account)
 		Object.assign(options, {account})
 
+	if (start_date)
+		Object.assign(options, {start_date})
+
 	const { data, isError } = await Fetcher
 		.baseURL(constants.API_BASE_URL)
 		.applyCookies(cookies())
 		.setBody({
-			sort: 'created_at,desc',
+			page,
+			per_page,
+			sort,
 			relations: 'category',
 			...options
 		})
