@@ -1,11 +1,9 @@
-import { formatDistanceToNow, parseISO } from 'date-fns'
-import ptBR from 'date-fns/locale/pt-BR'
 import { GetTransactionFilters, getTransactions } from "@/data/usecase/get-transactions"
-import { Transaction } from "domain/transactions/transaction"
 import Heading from '@/presentation/components/heading';
 import { RenderIf } from '@/presentation/components/render-if';
 import Pagination from '@/presentation/components/pagination';
 import SelectPeriod from './select-period';
+import TransactionCard, { TransactionCardHead } from '@/presentation/components/transaction-card';
 
 interface TransactionsPageParams {
 	params: object;
@@ -28,7 +26,7 @@ export default async function TransactionsPage({ searchParams }:TransactionsPage
 						<span>Itens por página: {per_page.toString()}</span>
 					</div>
 
-					<SelectPeriod />
+					<SelectPeriod resource="transactions" />
 				</div>
 			</div>
 
@@ -37,13 +35,7 @@ export default async function TransactionsPage({ searchParams }:TransactionsPage
 					<div className='overflow-x-auto lg:overflow-x-visible'>
 						<table className="table text-gray-400 border-separate border-spacing-1 space-y-6 text-sm min-w-max w-full">
 							<thead className='bg-white text-gray-600'>
-								<tr>
-									<th className='p-3'>#</th>
-									<th className='p-3'>Referência</th>
-									<th className='p-3 text-right'>Valor</th>
-									<th className='p-3 text-left'>Categoria</th>
-									<th className='p-3 text-right'>Data</th>
-								</tr>
+								<TransactionCardHead />
 							</thead>
 
 							<tbody>
@@ -63,28 +55,3 @@ export default async function TransactionsPage({ searchParams }:TransactionsPage
 	)
 }
 
-const TransactionCard = ({ id, reference, type, value_fmt, created_at, category }: Transaction, i: number) => {
-	const color = type === 'EXPENSE'
-		? 'text-red-500'
-		: 'text-green-500';
-
-	return (
-		<tr key={id} className='bg-white shadow-sm hover:bg-gray-100 transition-colors'>
-			<td className='p-3 text-center font-medium'>{i+1}</td>
-			<td className='p-3'>{reference}</td>
-			<td className={`p-3 text-right font-medium ${color}`}>{value_fmt}</td>
-			<td className='p-3'>{category?.name || 'Sem categoria'}</td>
-			<td className={`p-3 text-gray-400 text-end`}>{formatDate(created_at)}</td>
-		</tr>
-	)
-}
-
-function formatDate(date: string): string {
-	return formatDistanceToNow(
-		parseISO(date),
-		{
-			addSuffix: true,
-			locale: ptBR
-		}
-	)
-}

@@ -13,7 +13,13 @@ function backToDate(days: number): string {
 	return backDate.toISOString()
 }
 
-export default function SelectPeriod() {
+interface SelectPeriodProps {
+	resource: string;
+}
+
+export default function SelectPeriod({
+	resource
+}: SelectPeriodProps) {
 	const periods = [
 		{ id: '3_days', name: '3 Dias' },
 		{ id: '7_days', name: '7 Dias' },
@@ -33,12 +39,14 @@ export default function SelectPeriod() {
 	const { replace } = useRouter()
 
 	const select = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-		if (!dates[e.target.value])
-			replace(`/transactions`)
+		if (!dates[e.target.value]){
+			replace(`/${resource}`)
+			return;
+		}
 
-		replace(`/transactions?start_date=${dates[e.target.value]}`)
+		replace(`/${resource}?start_date=${dates[e.target.value]}`)
 		return Promise.resolve()
-	}, [replace, dates])
+	}, [replace, dates, resource])
 
 
 	return (
