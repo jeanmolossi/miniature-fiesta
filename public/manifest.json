@@ -1,0 +1,10 @@
+{
+	"name": "Finanials",
+	"short_name": "FNC",
+	"theme_color": "#051c2e",
+	"background_color": "#051c2e",
+	"display": "fullscreen",
+	"orientation": "portrait",
+	"scope": "/",
+	"start_url": "/"
+  }
