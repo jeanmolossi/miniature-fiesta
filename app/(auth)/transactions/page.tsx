@@ -1,10 +1,10 @@
 import { GetTransactionFilters, getTransactions } from "@/data/usecase/get-transactions"
-import Heading from '@/presentation/components/heading';
 import { RenderIf } from '@/presentation/components/render-if';
 import Pagination from '@/presentation/components/pagination';
 import SelectPeriod from './select-period';
 import TransactionCard, { TransactionCardHead } from '@/presentation/components/transaction-card';
 import Table from "@/presentation/components/table";
+import Card from "@/presentation/components/card";
 
 interface TransactionsPageParams {
 	params: object;
@@ -16,7 +16,13 @@ export default async function TransactionsPage({ searchParams }:TransactionsPage
 	const { transactions, meta } = await getTransactions({ account, page, per_page, sort, start_date })
 
 	if (meta.total === 0)
-		return <Heading>Nenhuma transação registrada</Heading>
+		return (
+			<Card
+				title="Nenhuma transação registrada"
+				hint="Adicione uma nova transação"
+				goBackAction
+			/>
+		)
 
 	return (
 		<div className="grid grid-cols-12 sm:flex sm:flex-1 sm:flex-col items-stretch min-h-screen gap-2">
@@ -47,4 +53,3 @@ export default async function TransactionsPage({ searchParams }:TransactionsPage
 		</div>
 	)
 }
-
