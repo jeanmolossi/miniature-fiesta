@@ -20,7 +20,7 @@ interface TransactionsPageProps {
 
 export default async function TransactionsPage({ params, searchParams }: TransactionsPageProps) {
 	const { id: account } = params
-	const { page = 1, per_page = 5, sort, start_date } = searchParams;
+	const { page = 1, per_page = 20, sort, start_date } = searchParams;
 
 	const { transactions, meta } = await getTransactions({ account, page, per_page, sort, start_date })
 
