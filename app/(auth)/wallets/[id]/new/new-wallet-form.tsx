@@ -10,6 +10,9 @@ import Input, { CurrencyInput } from '@/presentation/components/input';
 import Button from '@/presentation/components/button';
 import Select from '@/presentation/components/select';
 import { RenderIf } from '@/presentation/components/render-if';
+import { Fetcher } from '@/data/helpers/fetcher';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 interface NewWalletFormProps {
 	account: string;
@@ -23,6 +26,19 @@ interface NewWalletPayload {
 	brand?: WalletBrand;
 }
 
+const brands: Array<{ id: WalletBrand, name: string }> = [
+	{ id: WalletBrand.ELO, name: 'Elo' },
+	{ id: WalletBrand.AMERICAN_EXPRESS, name: 'American Express' },
+	{ id: WalletBrand.MASTER, name: 'Master card' },
+	{ id: WalletBrand.VISA, name: 'Visa' },
+]
+
+const types: Array<{ id: WalletType, name: string }> = [
+	{ id: WalletType.CASH, name: 'Dinheiro' },
+	{ id: WalletType.CREDIT, name: 'Cartão de Crédito' },
+	{ id: WalletType.DEBIT, name: 'Cartão de Débito' },
+]
+
 export default function NewWalletForm({
 	account
 }: NewWalletFormProps) {
@@ -33,24 +49,29 @@ export default function NewWalletForm({
 		watch
 	} = useForm<NewWalletPayload>({ resolver: addWalletResolver })
 
+	const { replace } = useRouter()
+
 	const onSubmit: SubmitHandler<NewWalletPayload> = useCallback(async (data) => {
-		const finalBody = parseData({ ...data, account })
+		const { name, account: account_id, type, limit, brand }  = parseData({ ...data, account })
 
-		console.log(finalBody)
-	}, [account]);
+		try {
+			const result = await Fetcher
+				.baseURL()
+				.setBody({ name, account_id, type, limit, brand })
+				.post('/api/create-wallet')
 
-	const brands: Array<{ id: WalletBrand, name: string }> = [
-		{ id: WalletBrand.ELO, name: 'Elo' },
-		{ id: WalletBrand.AMERICAN_EXPRESS, name: 'American Express' },
-		{ id: WalletBrand.MASTER, name: 'Master card' },
-		{ id: WalletBrand.VISA, name: 'Visa' },
-	]
+			if (result.isError || result.statusCode >= 400){
+				toast.error(result.data)
+				return;
+			}
 
-	const types: Array<{ id: WalletType, name: string }> = [
-		{ id: WalletType.CASH, name: 'Dinheiro' },
-		{ id: WalletType.CREDIT, name: 'Cartão de Crédito' },
-		{ id: WalletType.DEBIT, name: 'Cartão de Débito' },
-	]
+			toast.success(`Meio de pagamento criado!`, {
+				onClose() { replace('/dashboard') }
+			})
+		} catch(e) {
+			toast.error(e.message)
+		}
+	}, [account, replace]);
 
 	const selectedType = watch('type')
 
