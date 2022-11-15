@@ -1,6 +1,5 @@
-import { formatDistanceToNow, parseISO } from "date-fns";
-import ptBR from 'date-fns/locale/pt-BR'
 import { Transaction } from "domain/transactions/transaction";
+import { formatDate } from "../helpers/format-date-distance";
 
 export function TransactionCardHead() {
 	return (
@@ -30,12 +29,3 @@ export default function TransactionCard({ id, reference, type, value_fmt, create
 	)
 }
 
-function formatDate(date: string): string {
-	return formatDistanceToNow(
-		parseISO(date),
-		{
-			addSuffix: true,
-			locale: ptBR
-		}
-	)
-}
