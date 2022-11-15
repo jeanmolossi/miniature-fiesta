@@ -43,18 +43,30 @@ function CurrencyInput({
 			>
 				{label}
 			</label>
-			<input
-				id={id}
-				className={`mt-1 block w-full rounded-md shadow-sm ${ring} sm:text-sm ${className}`}
-				aria-invalid={Boolean(error)}
-				ref={ref}
-				type={type}
-				{...props}
-				onChange={onChange}
-			/>
 
-			<div className="absolute left-1 bottom-1 text-sm font-medium text-slate-500">
-				{visualization}
+			<div className="relative">
+				<input
+					id={id}
+					className={
+						`mt-1 block w-full rounded-md shadow-sm  ${ring}` +
+						` sm:text-sm text-right ${className} text-white`
+					}
+					aria-invalid={Boolean(error)}
+					ref={ref}
+					type={type}
+					{...props}
+					onChange={onChange}
+				/>
+
+				<span
+					className={
+						`pointer-events-none absolute inset-0 text-sm` +
+						` font-medium text-slate-500 flex items-center` +
+						` justify-end ${className} pr-8`
+					}
+				>
+					{visualization}
+				</span>
 			</div>
 
 			<WithError error={error} />
