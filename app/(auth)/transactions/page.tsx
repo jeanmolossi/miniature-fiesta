@@ -4,6 +4,7 @@ import { RenderIf } from '@/presentation/components/render-if';
 import Pagination from '@/presentation/components/pagination';
 import SelectPeriod from './select-period';
 import TransactionCard, { TransactionCardHead } from '@/presentation/components/transaction-card';
+import Table from "@/presentation/components/table";
 
 interface TransactionsPageParams {
 	params: object;
@@ -31,19 +32,11 @@ export default async function TransactionsPage({ searchParams }:TransactionsPage
 			</div>
 
 			<RenderIf condition={transactions.length > 0}>
-				<div className='col-span-12 '>
-					<div className='overflow-x-auto lg:overflow-x-visible'>
-						<table className="table text-gray-400 border-separate border-spacing-1 space-y-6 text-sm min-w-max w-full">
-							<thead className='bg-white text-gray-600'>
-								<TransactionCardHead />
-							</thead>
-
-							<tbody>
-								{(transactions.map(TransactionCard))}
-							</tbody>
-						</table>
-					</div>
-				</div>
+				<Table
+					data={transactions}
+					renderHead={<TransactionCardHead />}
+					renderItem={TransactionCard}
+				/>
 			</RenderIf>
 
 			<Pagination
