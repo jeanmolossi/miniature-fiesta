@@ -1,5 +1,6 @@
 import { getAccountWallets } from "@/data/usecase/get-account-wallets";
 import { getMyCategories } from "@/data/usecase/get-my-categories";
+import Card from "@/presentation/components/card";
 import Heading from "@/presentation/components/heading";
 import NewTransactionForm from "./new-transaction-form";
 
@@ -15,7 +16,17 @@ export default async function NewPage({ params }: NewTransactionPageParams) {
 	const { payments, meta } = await getAccountWallets({ account: params.id })
 
 	if (meta.total === 0)
-		return <Heading as="h2">Nenhuma carteira nesta conta</Heading>
+		return (
+			<Card
+				title="Não há um meio de pagamento nesta conta"
+				hint="Adicione um meio de pagamento para esta conta"
+				goBackAction
+				gotoAction={{
+					label: 'Adicionar pagamento',
+					href: `/wallets/${params.id}/new`,
+				}}
+			/>
+		)
 
 	const { categories } = await getMyCategories()
 

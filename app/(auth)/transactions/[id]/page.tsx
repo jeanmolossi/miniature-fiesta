@@ -1,4 +1,5 @@
 import { getTransactions } from "@/data/usecase/get-transactions";
+import Card from "@/presentation/components/card";
 import Heading from "@/presentation/components/heading";
 import Pagination from "@/presentation/components/pagination";
 import Table, { ColumnValue } from "@/presentation/components/table";
@@ -25,7 +26,17 @@ export default async function TransactionsPage({ params, searchParams }: Transac
 	const { transactions, meta } = await getTransactions({ account, page, per_page, sort, start_date })
 
 	if (meta.total === 0)
-		return <Heading>Nenhuma transação registrada</Heading>
+		return (
+			<Card
+				title="Nenhuma transação registrada"
+				hint="Adicione uma nova transação"
+				goBackAction
+				gotoAction={{
+					label: 'Nova transação',
+					href: `/transactions/${account}/new`
+				}}
+			/>
+		)
 
 	return (
 		<div className="grid grid-cols-12 sm:flex sm:flex-1 sm:flex-col items-stretch min-h-screen gap-2">

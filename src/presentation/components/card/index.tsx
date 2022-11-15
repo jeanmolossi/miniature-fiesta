@@ -31,7 +31,7 @@ export default function Card({
 			<div
 				className={
 					`border border-dashed border-indigo-400 p-6 rounded-2xl` +
-					` shadow-xl bg-white flex flex-col gap-4`
+					` shadow-xl bg-white flex flex-col gap-4 max-w-lg m-4 sm:m-0`
 				}
 			>
 				<div>
@@ -42,12 +42,13 @@ export default function Card({
 					<span role={'alert'} className="font-medium text-slate-500">{hint}</span>
 				</div>
 
-				<div className="grid grid-cols-12 sm:grid-cols-6">
+				<div className="grid grid-cols-12 sm:grid-cols-6 gap-4">
 					<RenderIf condition={goBackAction}>
 						<Button
 							fullWidth
 							className={`col-span-12 sm:col-span-${Boolean(gotoAction) ? '3' : '6'}`}
 							onClick={() => router.back()}
+							variant={Boolean(gotoAction) ? 'rose' : 'indigo'}
 						>
 							Voltar
 						</Button>
@@ -55,6 +56,7 @@ export default function Card({
 
 					<RenderIf condition={Boolean(gotoAction)}>
 						<Link
+							className="btn__indigo btn_size__md col-span-12 sm:col-span-3"
 							href={gotoAction?.href}
 						>
 							{gotoAction?.label || 'No label'}
