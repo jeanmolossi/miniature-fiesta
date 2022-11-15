@@ -1,4 +1,5 @@
 import { getWallets } from "@/data/usecase/get-wallets"
+import Card from "@/presentation/components/card"
 import Heading from "@/presentation/components/heading"
 import { RenderIf } from "@/presentation/components/render-if"
 import { Wallet } from "domain/wallets/wallet"
@@ -7,7 +8,13 @@ export default async function WalletsPage() {
 	const { payments, meta } = await getWallets()
 
 	if (meta.total === 0)
-		return <div><span role={'banner'}>Nenhuma carteira encontrada</span></div>
+		return (
+			<Card
+				title="Nenhum meio de pagamento encontrado"
+				hint="Escolha uma conta e adicione um meio de pagamento"
+				goBackAction
+			/>
+		)
 
 	const columns = Math.min(4, payments.length);
 
