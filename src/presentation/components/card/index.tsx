@@ -23,7 +23,6 @@ export default function Card({
 	hint,
 	gotoAction,
 	goBackAction = false,
-	className = ''
 }: CardProps) {
 	const router = useRouter()
 	return (

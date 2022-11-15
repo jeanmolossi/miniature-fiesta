@@ -1,4 +1,3 @@
-import constants from "@/constants"
 import { Transaction, TransactionType } from "domain/transactions/transaction"
 import { Fetcher } from "../helpers/fetcher"
 
