@@ -1,7 +1,7 @@
 import constants from "@/constants";
+import { cookies } from "next/headers";
 import { Category } from "domain/categories/category";
 import { Meta } from "domain/misc/meta";
-import { cookies } from "next/headers";
 import { Fetcher } from "../helpers/fetcher";
 
 interface CategoryList {

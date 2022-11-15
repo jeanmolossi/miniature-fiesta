@@ -1,5 +1,23 @@
 {
 	"extends": "next",
+	"plugins": ["eslint-plugin-import-helpers"],
 	"rules": {
+		"import-helpers/order-imports": [
+			"error",
+			{
+				"newlinesBetween": "never",
+				"groups": [
+					"/^react/",
+					"module",
+					"/^@?next/",
+					["/^app/", "/^src/", "/^domain/"],
+					"/^@\\/domain/",
+					"/^@\\/data/",
+					"/^@\\/presentation/",
+					["parent", "sibling", "index"]
+				],
+				"alphabetize": { "order": "asc", "ignoreCase": true }
+			}
+		]
 	}
   }

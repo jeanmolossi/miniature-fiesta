@@ -1,9 +1,9 @@
+import { Wallet, WalletBrand, WalletType } from "domain/wallets/wallet";
 import { getAccountWallets } from "@/data/usecase/get-account-wallets";
 import Card from "@/presentation/components/card";
 import Heading from "@/presentation/components/heading";
 import Pagination from "@/presentation/components/pagination";
 import Table from "@/presentation/components/table";
-import { Wallet, WalletBrand, WalletType } from "domain/wallets/wallet";
 
 interface WalletsPageProps {
 	params: {

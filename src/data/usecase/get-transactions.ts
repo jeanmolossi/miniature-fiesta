@@ -1,7 +1,7 @@
 import constants from "@/constants";
+import { cookies } from "next/headers";
 import { Meta } from "domain/misc/meta";
 import { Transaction } from "domain/transactions/transaction";
-import { cookies } from "next/headers";
 import { Fetcher } from "../helpers/fetcher";
 
 interface TransactionList {

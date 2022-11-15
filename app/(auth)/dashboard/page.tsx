@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { getMyAccounts } from '@/data/usecase/my-accounts'
 import { Account } from 'domain/accounts/account'
+import { getMyAccounts } from '@/data/usecase/my-accounts'
 import Heading from '@/presentation/components/heading'
 
 export const revalidate = 15

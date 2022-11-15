@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import constants from "@/constants";
+import { cookies } from "next/headers";
 import { Meta } from "domain/misc/meta";
 import { Wallet } from "domain/wallets/wallet";
 import { Fetcher } from "../helpers/fetcher";

@@ -1,8 +1,8 @@
+import { Wallet } from "domain/wallets/wallet"
 import { getWallets } from "@/data/usecase/get-wallets"
 import Card from "@/presentation/components/card"
 import Heading from "@/presentation/components/heading"
 import { RenderIf } from "@/presentation/components/render-if"
-import { Wallet } from "domain/wallets/wallet"
 
 export default async function WalletsPage() {
 	const { payments, meta } = await getWallets()

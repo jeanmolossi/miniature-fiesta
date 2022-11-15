@@ -1,10 +1,8 @@
 import { getTransactions } from "@/data/usecase/get-transactions";
 import Card from "@/presentation/components/card";
-import Heading from "@/presentation/components/heading";
 import Pagination from "@/presentation/components/pagination";
-import Table, { ColumnValue } from "@/presentation/components/table";
+import Table from "@/presentation/components/table";
 import TransactionCard, { TransactionCardHead } from "@/presentation/components/transaction-card";
-import { Transaction } from "domain/transactions/transaction";
 import SelectPeriod from "../select-period";
 
 interface TransactionsPageProps {

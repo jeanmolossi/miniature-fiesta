@@ -1,8 +1,8 @@
 import constants from "@/constants";
-import { Fetcher } from "@/data/helpers/fetcher";
-import { NextApiRequest, NextApiResponse } from "next";
 import Cookies from 'cookies'
+import { NextApiRequest, NextApiResponse } from "next";
 import { addMinutes } from "@/data/helpers/add-minutes";
+import { Fetcher } from "@/data/helpers/fetcher";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
 	if (request.method.toUpperCase() !== 'POST')

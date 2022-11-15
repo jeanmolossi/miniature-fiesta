@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import Cookies from "cookies";
 import constants from "@/constants";
+import Cookies from "cookies";
+import { NextApiRequest, NextApiResponse } from "next";
 import { Fetcher } from "@/data/helpers/fetcher";
 
 export default async function handler(_request: NextApiRequest, response: NextApiResponse) {

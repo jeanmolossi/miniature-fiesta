@@ -1,6 +1,6 @@
+import { redirect } from "next/navigation";
 import { getMe } from "@/data/usecase/me";
 import Sidebar from "@/presentation/components/sidebar";
-import { redirect } from "next/navigation";
 
 interface AuthLayoutProps {
 	children: React.ReactNode;

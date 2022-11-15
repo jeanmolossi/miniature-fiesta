@@ -1,9 +1,9 @@
 import React from "react";
-import UnauthDefaultLayout from "@/presentation/components/_unauth_layout";
-import LeftSide from "./(unauth)/components/left-side";
-import CreateAccountForm from "./(unauth)/components/create-account-form";
-import { getMe } from "@/data/usecase/me";
 import { redirect } from "next/navigation";
+import { getMe } from "@/data/usecase/me";
+import UnauthDefaultLayout from "@/presentation/components/_unauth_layout";
+import CreateAccountForm from "./(unauth)/components/create-account-form";
+import LeftSide from "./(unauth)/components/left-side";
 
 export default async function Page() {
 	const me =  await getMe();

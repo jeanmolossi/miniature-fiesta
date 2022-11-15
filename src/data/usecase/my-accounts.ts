@@ -1,6 +1,6 @@
+import { cookies } from "next/headers"
 import { Account } from "domain/accounts/account"
 import { Meta } from "domain/misc/meta"
-import { cookies } from "next/headers"
 import { Fetcher } from "../helpers/fetcher"
 
 interface AccountList {

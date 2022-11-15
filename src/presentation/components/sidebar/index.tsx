@@ -1,6 +1,6 @@
-import Heading from "@/presentation/components/heading";
-import { LogoutButton } from "app/(auth)/logout.button";
 import Link from "next/link";
+import { LogoutButton } from "app/(auth)/logout.button";
+import Heading from "@/presentation/components/heading";
 import { links } from "./link-tree";
 import MobileSidebar from "./mobile";
 

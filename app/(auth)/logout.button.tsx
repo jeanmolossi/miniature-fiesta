@@ -1,8 +1,8 @@
 'use client'
 
-import { Fetcher } from "@/data/helpers/fetcher";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { Fetcher } from "@/data/helpers/fetcher";
 
 interface LogoutButtonProps {
 	className?: string;

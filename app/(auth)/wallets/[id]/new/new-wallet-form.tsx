@@ -1,18 +1,20 @@
 'use client';
 
-import * as yup from 'yup';
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { WalletBrand, WalletType } from "domain/wallets/wallet";
 import { useCallback } from 'react';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup';
+import { useRouter } from 'next/navigation';
+import { WalletBrand, WalletType } from "domain/wallets/wallet";
+import { Fetcher } from '@/data/helpers/fetcher';
+import Button from '@/presentation/components/button';
 import Heading from '@/presentation/components/heading';
 import Input, { CurrencyInput } from '@/presentation/components/input';
-import Button from '@/presentation/components/button';
-import Select from '@/presentation/components/select';
 import { RenderIf } from '@/presentation/components/render-if';
-import { Fetcher } from '@/data/helpers/fetcher';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+import Select from '@/presentation/components/select';
+
+
 
 interface NewWalletFormProps {
 	account: string;

@@ -1,5 +1,5 @@
-import { Meta } from "domain/misc/meta";
 import Link from "next/link";
+import { Meta } from "domain/misc/meta";
 import { RenderIf } from "../render-if";
 import { parseLabel, parseMeta } from "./helpers";
 

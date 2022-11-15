@@ -1,10 +1,11 @@
 import { GetTransactionFilters, getTransactions } from "@/data/usecase/get-transactions"
-import { RenderIf } from '@/presentation/components/render-if';
-import Pagination from '@/presentation/components/pagination';
-import SelectPeriod from './select-period';
-import TransactionCard, { TransactionCardHead } from '@/presentation/components/transaction-card';
-import Table from "@/presentation/components/table";
 import Card from "@/presentation/components/card";
+import Pagination from '@/presentation/components/pagination';
+import { RenderIf } from '@/presentation/components/render-if';
+import Table from "@/presentation/components/table";
+import TransactionCard, { TransactionCardHead } from '@/presentation/components/transaction-card';
+import SelectPeriod from './select-period';
+
 
 interface TransactionsPageParams {
 	params: object;

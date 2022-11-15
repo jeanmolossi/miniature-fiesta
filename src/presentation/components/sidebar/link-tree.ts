@@ -4,4 +4,5 @@ export const links: SingleLink[] = [
 	{ href: '/dashboard', label: 'Dashboard' },
 	{ href: '/wallets', label: 'Meios de pagamento' },
 	{ href: '/transactions', label: 'Transações' },
+	{ href: '/categories', label: 'Categorias' },
 ]

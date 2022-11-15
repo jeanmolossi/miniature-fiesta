@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-export default function Error({ error, reset }) {
+export default function Error({ error }) {
 	console.log({error})
 
 	if (['Unauthorized', 'Missing authentication'].includes(error.message)) {

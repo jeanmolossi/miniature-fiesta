@@ -1,7 +1,7 @@
 import constants from "@/constants";
-import { Fetcher } from "@/data/helpers/fetcher";
 import { NextApiResponse } from "next";
 import { NextRequest } from "next/server";
+import { Fetcher } from "@/data/helpers/fetcher";
 
 export default async function handler(request: NextRequest, response: NextApiResponse) {
 	if (request.method.toUpperCase() !== 'POST')
