@@ -106,7 +106,7 @@ export default function NewTransactionForm({
 					error={errors.value?.message as string}
 				/>
 
-				<div className="col-span-6">
+				<div className="col-span-4 sm:col-span-6">
 					<ButtonGroup
 						label="Tipo da transação"
 						options={[
@@ -118,11 +118,15 @@ export default function NewTransactionForm({
 						error={errors.type?.message as string}
 					/>
 				</div>
+
+				<div className="flex flex-col justify-end items-end flex-1 col-span-2 sm:col-span-6">
+					<Button type="submit" className="border ring-1 border-indigo-700 ring-indigo-700">
+						Adicionar
+					</Button>
+				</div>
 			</div>
 
-			<Button type="submit">
-				Adicionar
-			</Button>
+
 		</form>
 	)
 }
