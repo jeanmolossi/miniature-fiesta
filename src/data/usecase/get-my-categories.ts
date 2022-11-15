@@ -9,11 +9,15 @@ interface CategoryList {
 	meta: Meta;
 }
 
-export async function getMyCategories() {
+export async function getMyCategories(params?: URLSearchParams) {
+	const query = params
+		? `?${params.toString()}`
+		: ''
+
 	const { data, isError } = await Fetcher
 		.baseURL(constants.API_BASE_URL)
 		.applyCookies(cookies())
-		.get<CategoryList>('/categories')
+		.get<CategoryList>('/categories' + query)
 
 	if (isError)
 		throw new Error(data as any)
