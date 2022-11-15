@@ -18,7 +18,7 @@ function Input({
 	type = 'text',
 	error,
 	className = '',
-	containerClassName = '',
+	containerClassName = 'col-span-6',
 	...props
 }: InputProps, ref) {
 	const ring = Boolean(error)
@@ -26,7 +26,7 @@ function Input({
 		: 'border-2 border-transparent focus:border-indigo-500 focus:ring-indigo-500'
 
 	return (
-		<div className={`col-span-6 ${containerClassName}`}>
+		<div className={`${containerClassName}`}>
 			<label
 				htmlFor={id}
 				className="block text-sm font-medium text-gray-700"
