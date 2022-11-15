@@ -1,7 +1,6 @@
 import { getAccountWallets } from "@/data/usecase/get-account-wallets";
 import { getMyCategories } from "@/data/usecase/get-my-categories";
 import Heading from "@/presentation/components/heading";
-import Select from "@/presentation/components/select";
 import NewTransactionForm from "./new-transaction-form";
 
 interface NewTransactionPageParams {
