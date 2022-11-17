@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Account } from 'domain/accounts/account'
 import { getMyAccounts } from '@/data/usecase/my-accounts'
 import Heading from '@/presentation/components/heading'
+import { Total } from './total'
 
 export const revalidate = 15
 
@@ -15,32 +16,13 @@ export default async function DashboardPage() {
 		return acc + account.current_amount
 	}, 0) / 100
 
-	const total = new Intl
-		.NumberFormat(
-			'pt-BR',
-			{ style: 'currency', currency: 'BRL' }
-		)
-		.format(reducedTotal)
-
-	const color = reducedTotal > 0
-		? 'green-600'
-		: reducedTotal < 0
-			? 'rose-600'
-			: 'gray-700'
-
 	return (
 		<div className='grid grid-cols-12 gap-4'>
 			<div className={`grid grid-cols-12 col-span-12 gap-4`}>
 				{(data.accounts.map(AccountCard))}
 			</div>
 
-			<div className='flex flex-1 w-full justify-end col-span-12'>
-				<div className={`border border-dashed border-${color} p-4 rounded-lg w-full sm:w-fit`}>
-					<span className={`font-medium text-lg text-${color}`}>
-						Total: {total}
-					</span>
-				</div>
-			</div>
+			<Total total={reducedTotal} />
 		</div>
 	)
 }
