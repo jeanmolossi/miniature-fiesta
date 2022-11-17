@@ -6,5 +6,12 @@
 	"display": "fullscreen",
 	"orientation": "portrait",
 	"scope": "/",
-	"start_url": "/"
+	"start_url": "/login",
+	"icons": [
+		{
+			"src": "/favicon.ico",
+			"sizes": "48x48",
+			"type": "image/ico"
+		}
+	]
   }
