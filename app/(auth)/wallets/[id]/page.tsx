@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Wallet, WalletBrand, WalletType } from "domain/wallets/wallet";
 import { getAccountWallets } from "@/data/usecase/get-account-wallets";
 import Card from "@/presentation/components/card";
@@ -22,7 +23,10 @@ export default async function WalletsPage({ params }: WalletsPageProps) {
 			/>
 		)
 
-	const { payments, meta } = await getAccountWallets({ account: params.id })
+	const { payments, meta } = await getAccountWallets({
+		account: params.id,
+		relations: ['account']
+	})
 
 	if (meta.total === 0)
 		return (
@@ -64,6 +68,7 @@ function WalletHeadTable() {
 			<th className="p-3">Tipo de carteira</th>
 			<th className="p-3">Bandeira</th>
 			<th className="p-3 text-right">Limite</th>
+			<th className="p-3">Actions</th>
 		</tr>
 	)
 }
@@ -82,7 +87,7 @@ const brandTransformer = {
 	['empty']: 'Não possui'
 }
 
-function WalletRowTable({ id, name, type = WalletType.CASH, brand, readable_limit }: Wallet, i: number) {
+function WalletRowTable({ id, name, type = WalletType.CASH, brand, readable_limit, account }: Wallet, i: number) {
 	return (
 		<tr key={id} className="bg-white shadow-sm hover:bg-gray-100 transition-colors">
 			<td className="p-3 text-center font-medium">{i+1}</td>
@@ -90,6 +95,14 @@ function WalletRowTable({ id, name, type = WalletType.CASH, brand, readable_limi
 			<td className="p-3 text-center">{typeTransformer[type]}</td>
 			<td className="p-3 text-center">{brandTransformer[brand || 'empty']}</td>
 			<td className="p-3 text-right">{readable_limit || 'Não possui'}</td>
+			<td className="p-3 text-center">
+				<Link
+					href={`/transactions/${account.id}?wallet=${id}`}
+					className="font-medium text-blue-600"
+				>
+					Ver transações
+				</Link>
+			</td>
 		</tr>
 	)
 }
