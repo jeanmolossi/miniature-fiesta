@@ -11,12 +11,14 @@ interface WalletsList {
 
 export interface GetAccountFilters {
 	account?: string;
+	relations?: string[];
 }
 
-export async function getAccountWallets({ account }: GetAccountFilters) {
+export async function getAccountWallets({ account, relations }: GetAccountFilters) {
 	const options: Partial<GetAccountFilters> = {}
 
 	if (account) Object.assign(options, { account })
+	if (relations) Object.assign(options, { relations })
 
 	const { data, isError } = await Fetcher
 		.baseURL(constants.API_BASE_URL)
