@@ -15,6 +15,7 @@ export interface GetTransactionFilters {
 	per_page?: number;
 	sort?: string;
 	start_date?: string;
+	wallet?: string;
 }
 
 export async function getTransactions({
@@ -22,7 +23,8 @@ export async function getTransactions({
 	page = 1,
 	per_page = 15,
 	sort = 'created_at,desc',
-	start_date
+	start_date,
+	wallet
 }: GetTransactionFilters) {
 	const options = {}
 
@@ -31,6 +33,9 @@ export async function getTransactions({
 
 	if (start_date)
 		Object.assign(options, {start_date})
+
+	if(wallet)
+		Object.assign(options, {wallet})
 
 	const { data, isError } = await Fetcher
 		.baseURL(constants.API_BASE_URL)
