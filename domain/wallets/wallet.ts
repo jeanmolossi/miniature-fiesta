@@ -1,3 +1,5 @@
+import { Account } from "domain/accounts/account";
+
 export enum WalletType {
 	"CASH" = "CASH",
 	"CREDIT" = "CREDIT",
@@ -18,5 +20,6 @@ export interface Wallet {
 	brand?: WalletBrand;
 	limit: null | number,
 	readable_limit: null | string,
+	account?: Account;
 	_self: string;
 }
