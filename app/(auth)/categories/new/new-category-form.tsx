@@ -2,9 +2,12 @@
 
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup'
+import { useRouter } from "next/navigation";
 import { Category } from "domain/categories/category";
+import { createCategory } from "@/data/usecase/create-category";
 import Button from "@/presentation/components/button";
 import Input from "@/presentation/components/input";
 import { RenderIf } from "@/presentation/components/render-if";
@@ -32,9 +35,23 @@ export default function NewCategoryForm({ categories }: NewCategoryFormProps) {
 		})
 	) })
 
-	const onSubmit: SubmitHandler<any> = useCallback(async (data) => {
-		// TODO : finalizar submit da categoria
-		console.log(data)
+	const { replace } = useRouter()
+
+	const onSubmit: SubmitHandler<NewCategoryPayload> = useCallback(async (data) => {
+		const category = { name: data.name }
+
+		if (data.parent)
+			Object.assign(category, { parent_id: data.parent })
+
+		try {
+			await createCategory(category)
+
+			toast.success('Nova categoria adicionada', {
+				onClose() { replace('/categories') }
+			})
+		} catch (e) {
+			toast.error(e.message)
+		}
 	}, [])
 
 	return (

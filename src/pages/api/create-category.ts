@@ -17,7 +17,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
 	const result = await Fetcher
 		.baseURL(constants.API_BASE_URL)
-		.debug()
 		.setHeader('authorization', `Basic ${authToken}`)
 		.setBody(body)
 		.post('/categories')
