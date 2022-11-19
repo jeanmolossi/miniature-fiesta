@@ -31,6 +31,7 @@ export class Fetcher {
 
 	public debug() {
 		this.isDebug = true
+		return this
 	}
 
 	private async request<T>({ url, method, data, headers }: RequestOptions): Promise<FetcherResponse<T>> {
