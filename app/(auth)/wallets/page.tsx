@@ -1,11 +1,15 @@
-import { Wallet } from "domain/wallets/wallet"
 import { getWallets } from "@/data/usecase/get-wallets"
 import Card from "@/presentation/components/card"
 import Heading from "@/presentation/components/heading"
-import { RenderIf } from "@/presentation/components/render-if"
+import Pagination from "@/presentation/components/pagination"
+import Table from "@/presentation/components/table"
+import { WalletHeadTable, WalletRowTable } from "@/presentation/components/table/wallet-rows"
 
 export default async function WalletsPage() {
-	const { payments, meta } = await getWallets()
+	const { payments, meta } = await getWallets({
+		relations: ['account'],
+		fields: ['id', 'name', 'type', 'brand', 'limit', 'account.id']
+	})
 
 	if (meta.total === 0)
 		return (
@@ -16,28 +20,21 @@ export default async function WalletsPage() {
 			/>
 		)
 
-	const columns = Math.min(4, payments.length);
-
 	return (
-		<div className={`grid grid-cols-${columns} gap-4`}>
-			<RenderIf condition={Boolean(payments.length)}>
-				{payments.map(WalletCard)}
-			</RenderIf>
-		</div>
-	)
-}
+		<div className="grid grid-cols-12 sm:flex sm:flex-1 sm:flex-col sm:items-stretch min-h-screen gap-2">
+			<Heading as="h3" className="block w-full col-span-12">Meios de pagamento</Heading>
 
-const WalletCard = ({ id, name, readable_limit, brand }: Wallet) => {
-	const limit = readable_limit ?? 'R$ 0,00'
-	const _brand = brand ?? ''
+			<Table
+				data={payments}
+				renderHead={<WalletHeadTable />}
+				renderItem={WalletRowTable}
+			/>
 
-	return (
-		<div key={id} className="bg-white shadow-sm p-4 rounded-md">
-			<Heading as="h5">{name}</Heading>
-			<div className="grid grid-cols-2">
-				<span className="">{limit}</span>
-				<span className="text-end">{_brand}</span>
-			</div>
+			<Pagination
+				meta={meta}
+				resource="wallets"
+				excludeKeys={['relations']}
+			/>
 		</div>
 	)
 }

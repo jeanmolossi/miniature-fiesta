@@ -9,8 +9,16 @@ interface WalletsList {
 	meta: Meta
 }
 
-export async function getWallets() {
+interface GetWalletsFilters {
+	fields?: string[],
+	relations?: string[]
+}
+
+export async function getWallets({ relations, fields }: GetWalletsFilters) {
 	const options = {}
+
+	if (relations) Object.assign(options, { relations })
+	if (fields) Object.assign(options, { fields: fields.join(',') })
 
 	const { data, isError } = await Fetcher
 		.baseURL(constants.API_BASE_URL)
