@@ -34,8 +34,14 @@ export class Fetcher {
 		return this
 	}
 
-	private async request<T>({ url, method, data, headers }: RequestOptions): Promise<FetcherResponse<T>> {
-		return await fetch(`${this.baseURL}/${url}`, {
+	private async request<T>(options: RequestOptions): Promise<FetcherResponse<T>> {
+		const fromCache = getCache(options)
+		if (typeof fromCache !== 'undefined')
+			return fromCache
+
+		const { url, method, data, headers } = options
+
+		const result = await fetch(`${this.baseURL}/${url}`, {
 			method,
 			body: data,
 			headers,
@@ -43,6 +49,10 @@ export class Fetcher {
 		})
 			.then(this.responseParser.bind(this))
 			.catch((error) => error)
+
+		setCache(options, result)
+
+		return result
 	}
 
 	private async responseParser<T>(response: Response): Promise<FetcherResponse<T>> {
@@ -200,4 +210,32 @@ export class HttpError extends Error {
 
 		return 'Internal server error'
 	}
+}
+
+let cache: Record<string, any> = {}
+
+function getCache(options: RequestOptions) {
+	const key = JSON.stringify(options)
+
+	if (hasOwnProperty(cache, key)) {
+		return cache[key]
+	}
+
+	return
+}
+
+function setCache(options: RequestOptions, data: any, ttl = 2000) {
+	const key = JSON.stringify(options)
+
+	if (!getCache(options)) {
+		cache[key] = data;
+
+		setTimeout(() => {
+			delete cache[key]
+		}, ttl)
+	}
+}
+
+function hasOwnProperty<O extends Record<string, any>, K extends keyof O>(obj:O, param: K): boolean {
+	return Object.prototype.hasOwnProperty.call(obj, param)
 }
