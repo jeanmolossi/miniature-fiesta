@@ -218,21 +218,34 @@ function getCache(options: RequestOptions) {
 	const key = JSON.stringify(options)
 
 	if (hasOwnProperty(cache, key)) {
-		return cache[key]
+		renewCache(key)
+		return cache[key].data
 	}
 
 	return
+}
+
+function renewCache(key) {
+	if (!hasOwnProperty(cache, key))
+		return;
+
+	clearTimeout(cache[key].timeout)
+	cache[key].timeout = setTimeout(() => {
+		delete cache[key]
+	}, cache[key].ttl)
 }
 
 function setCache(options: RequestOptions, data: any, ttl = 2000) {
 	const key = JSON.stringify(options)
 
 	if (!getCache(options)) {
-		cache[key] = data;
-
-		setTimeout(() => {
-			delete cache[key]
-		}, ttl)
+		cache[key] = {
+			data: data,
+			timeout: setTimeout(() => {
+				delete cache[key]
+			}, ttl),
+			ttl,
+		};
 	}
 }
 
