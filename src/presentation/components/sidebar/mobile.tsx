@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogoutButton } from "app/(auth)/logout.button";
 import { links } from "./link-tree";
-
 
 export default function MobileSidebar() {
 	const [open, setOpen] = useState(false)
@@ -57,6 +57,8 @@ export default function MobileSidebar() {
 					{label}
 				</Link>
 			))}
+
+			<LogoutButton className="btn__indigo btn_size__md" />
 		</div>
 	)
 }

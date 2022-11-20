@@ -65,7 +65,7 @@ export default async function CategoriesPage({ searchParams }: CategoriesPagePro
 				</div>
 			</div>
 
-			<div>
+			<div className="grid grid-cols-12 col-span-12">
 				<Table
 					data={categories}
 					renderHead={<CategoryHead />}
