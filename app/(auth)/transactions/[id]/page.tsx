@@ -49,7 +49,7 @@ export default async function TransactionsPage({ params, searchParams }: Transac
 				</div>
 			</div>
 
-			<div className="grid grid-cols-12 cols-span12">
+			<div className="grid grid-cols-12 col-span-12">
 				<Table
 					data={transactions}
 					renderHead={<TransactionCardHead />}
