@@ -49,17 +49,19 @@ export default async function TransactionsPage({ params, searchParams }: Transac
 				</div>
 			</div>
 
-			<Table
-				data={transactions}
-				renderHead={<TransactionCardHead />}
-				renderItem={TransactionCard}
-			/>
+			<div className="grid grid-cols-12 cols-span12">
+				<Table
+					data={transactions}
+					renderHead={<TransactionCardHead />}
+					renderItem={TransactionCard}
+				/>
 
-			<Pagination
-				meta={meta}
-				resource={`transactions/${account}`}
-				excludeKeys={['relations']}
-			/>
+				<Pagination
+					meta={meta}
+					resource={`transactions/${account}`}
+					excludeKeys={['relations']}
+				/>
+			</div>
 		</div>
 	)
 }
