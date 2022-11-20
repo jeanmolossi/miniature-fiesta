@@ -18,7 +18,7 @@ export default async function DashboardPage() {
 
 	return (
 		<div className='grid grid-cols-12 gap-4'>
-			<div className={`grid grid-cols-12 col-span-12 gap-4`}>
+			<div className={`grid grid-cols-12 sm:grid-cols-4 xl:grid-cols-12 col-span-12 gap-4`}>
 				{(data.accounts.map(AccountCard))}
 			</div>
 
@@ -35,7 +35,7 @@ const AccountCard = ({ id, name, current_amount_fmt, current_amount }: Account) 
 		: 'text-gray-500'
 
 	return (
-		<div key={id} className="col-span-12 sm:col-span-4 p-4 bg-white rounded-lg shadow-sm relative">
+		<div key={id} className="col-span-12 sm:col-span-2 xl:col-span-4 p-4 bg-white rounded-lg shadow-sm relative">
 			<div className="grid grid-cols-12">
 				<div className='col-span-8'>
 					<Heading as='h4'>{name}</Heading>
