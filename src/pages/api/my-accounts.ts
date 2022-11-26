@@ -1,20 +1,21 @@
-import constants from '@/constants';
 import Cookies from "cookies";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Fetcher } from '@/data/helpers/fetcher';
+import { makeHttpClient } from '@/data/server/factory/http-client';
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
 	const cookies = new Cookies(request, response)
 	const authToken = cookies.get('access_token');
+	const refreshToken = cookies.get('refresh_token');
 
-	if (!authToken)
+	if (!authToken && !refreshToken)
 		return response.status(401).json({ message: 'Missing authentication' })
 
-	const { statusCode, data } = await Fetcher
-		.baseURL(constants.API_BASE_URL)
-		.setHeader('authorization', `basic ${encodeURIComponent(authToken)}`)
-		.setBody(request.query || {})
-		.get('/accounts')
+	const { status: statusCode, data } = await makeHttpClient()
+		.get('/accounts', {
+			headers: {
+				'Authorization': `Basic ${authToken}`
+			}
+		})
 
 	return response.status(statusCode).json(data)
 }

@@ -1,21 +1,25 @@
 import { cookies } from "next/headers"
 import { Account } from "domain/accounts/account"
 import { Meta } from "domain/misc/meta"
-import { Fetcher } from "../helpers/fetcher"
+import { makeHttpClient } from "../client/factory/http-client"
 
 interface AccountList {
 	accounts: Account[]
 	meta: Meta
 }
 
+const httpClient = makeHttpClient()
+
 export async function getMyAccounts() {
-	const { data, isError } = await Fetcher
-		.baseURL()
-		.applyCookies(cookies())
-		.get<AccountList>('/api/my-accounts')
+	try {
+		const { data } = await httpClient.get<AccountList>(
+			'/api/my-accounts',
+			{ cookies: cookies() },
+		)
 
-	if (isError)
-		throw new Error(data as any)
-
-	return data
+		return data;
+	} catch (e) {
+		console.log(e.message)
+		throw e
+	}
 }

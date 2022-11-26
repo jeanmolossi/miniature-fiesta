@@ -1,14 +1,33 @@
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { Me } from "domain/users/login";
-import { Fetcher } from "../helpers/fetcher";
+import { makeHttpClient } from '../client/factory/http-client';
+
+const httpClient = makeHttpClient()
 
 export async function getMe(): Promise<Me> {
-	const result = await Fetcher
-		.baseURL()
-		.applyCookies(cookies())
-		.get<Me>('/api/me')
+	try {
+		const { data } = await httpClient.get<Me>(
+			'/api/me',
+			{
+				cookies: cookies(),
+				headers: getHeaders()
+			},
+		)
 
-	if (result.isError) return;
+		return data;
+	} catch (e) {
+		console.log(e.message)
+		return;
+	}
+}
 
-	return result.data
+function getHeaders() {
+	const _headers = {}
+
+	for (let [key, value] of headers().entries()) {
+		if (key !== 'cookie')
+			Object.assign(_headers, { [key]: value })
+	}
+
+	return _headers
 }

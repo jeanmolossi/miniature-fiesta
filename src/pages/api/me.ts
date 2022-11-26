@@ -1,21 +1,38 @@
-import constants from "@/constants";
 import Cookies from "cookies";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Fetcher } from "@/data/helpers/fetcher";
+import { makeHttpClient } from "@/data/server/factory/http-client";
 
-export default async function handler(_request: NextApiRequest, response: NextApiResponse) {
-	const cookies = new Cookies(_request, response)
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
+	const cookies = new Cookies(request, response)
 
-	const accessToken = cookies.get('access_token') ?? _request.headers?.authorization;
+	const accessToken = cookies.get('access_token') ?? request.headers?.authorization;
+	const refreshToken = cookies.get('refresh_token') ?? request.headers?.['x-refresh-token'];
 
-	if (!accessToken)
+	if (!accessToken && !refreshToken)
 		return response.status(401).json({ message: 'Missing authentication' })
 
-	const { statusCode, data } = await Fetcher
-		.baseURL(constants.API_BASE_URL)
-		.setHeader('authorization', `basic ${accessToken}`)
-		.get('/auth/me')
+	const { statusCode, data } = await getMe({ accessToken, refreshToken })
 
 	response.setHeader('Cache-Control', 'max-age=300')
 	return response.status(statusCode).json(data)
+}
+
+async function getMe({ accessToken, refreshToken }) {
+	const httpClient = makeHttpClient()
+
+	const cookies = new Map<string, string>([])
+
+	if (accessToken)
+		cookies.set('access_token', `access_token=${accessToken}`)
+	if (refreshToken)
+		cookies.set('refresh_token', `refresh_token=${refreshToken}`)
+
+	try {
+		const { status, data, headers } = await httpClient.get('/auth/me', { cookies })
+
+		return { isError: status > 399, statusCode: status, data, headers }
+	} catch (e) {
+		console.log('Get Me err msg', e.message)
+		return { isError: true, statusCode: e.statusCode ?? 500, data: null, headers: null }
+	}
 }

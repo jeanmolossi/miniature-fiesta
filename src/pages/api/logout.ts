@@ -2,7 +2,9 @@ import constants from "@/constants";
 import Cookies from 'cookies'
 import { NextApiRequest, NextApiResponse } from "next";
 import { Fetcher } from "@/data/helpers/fetcher";
+import { makeHttpClient } from "@/data/server/factory/http-client";
 
+const httpClient = makeHttpClient()
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
 	if (request.method.toUpperCase() !== 'POST')
@@ -14,15 +16,13 @@ export default async function handler(request: NextApiRequest, response: NextApi
 	if (authToken) {
 		const opts = { expires: new Date(0) }
 		cookies.set('access_token', null, opts)
+		cookies.set('refresh_token', null, opts)
 
-		const result = await Fetcher
-			.baseURL(constants.API_BASE_URL)
-			.setHeader('authorization', `basic ${encodeURIComponent(authToken)}`)
-			.post('/auth/logout')
+		const result = await httpClient.post('/auth/logout', undefined, {
+			headers: { ...(request.headers as any || {})},
+		})
 
-		const { statusCode, data, isError } = result
-
-		console.log({ statusCode, data, isError })
+		const { status:statusCode, data } = result
 
 		return response.status(statusCode).json(data)
 	}

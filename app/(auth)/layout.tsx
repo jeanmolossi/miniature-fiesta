@@ -6,10 +6,12 @@ interface AuthLayoutProps {
 	children: React.ReactNode;
 }
 
+export const revalidate = 0
+
 export default async function Layout({ children }: AuthLayoutProps) {
 	const me = await getMe()
 
-	if (!me)
+	if (!me?.id)
 		redirect('/login')
 
 	return (

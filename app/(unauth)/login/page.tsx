@@ -1,7 +1,18 @@
+'use client';
+
+import { use } from "react";
+import { redirect } from "next/navigation";
 import LeftSide from "app/(unauth)/components/left-side";
 import LoginForm from "app/(unauth)/components/login-form";
+import { refreshToken } from "@/data/usecase/refresh-token";
+
+const refreshPromise = refreshToken()
 
 export default function LoginPage() {
+	const authorized = use(refreshPromise)
+	if (authorized)
+		redirect('/dashboard')
+
 	return (
 		<div className="mt-10 sm:mt-0">
 			<div className="md:grid md:grid-cols-3 md:gap-6">
