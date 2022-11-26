@@ -7,14 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { WalletBrand, WalletType } from "domain/wallets/wallet";
-import { Fetcher } from '@/data/helpers/fetcher';
+import { makeHttpClient } from '@/data/client/factory/http-client';
 import Button from '@/presentation/components/button';
 import Heading from '@/presentation/components/heading';
 import Input, { CurrencyInput } from '@/presentation/components/input';
 import { RenderIf } from '@/presentation/components/render-if';
 import Select from '@/presentation/components/select';
-
-
 
 interface NewWalletFormProps {
 	account: string;
@@ -57,15 +55,8 @@ export default function NewWalletForm({
 		const { name, account: account_id, type, limit, brand }  = parseData({ ...data, account })
 
 		try {
-			const result = await Fetcher
-				.baseURL()
-				.setBody({ name, account_id, type, limit, brand })
-				.post('/api/create-wallet')
-
-			if (result.isError || result.statusCode >= 400){
-				toast.error(result.data)
-				return;
-			}
+			await makeHttpClient()
+				.post('/api/create-wallet', { name, account_id, type, limit, brand })
 
 			toast.success(`Meio de pagamento criado!`, {
 				onClose() { replace('/dashboard') }

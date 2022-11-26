@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import Cookies from 'cookies'
 import { NextApiRequest, NextApiResponse } from "next";
 import { addMinutes } from "@/data/helpers/add-minutes";
-import { HttpError } from "@/data/helpers/fetcher";
+import { HttpError } from '@/data/protocols/http/http-error';
 import { makeHttpClient } from "@/data/server/factory/http-client";
 
 const httpClient = makeHttpClient()

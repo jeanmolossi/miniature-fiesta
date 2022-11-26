@@ -2,7 +2,7 @@
 
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { Fetcher } from "@/data/helpers/fetcher";
+import { makeHttpClient } from "@/data/client/factory/http-client";
 
 interface LogoutButtonProps {
 	className?: string;
@@ -10,16 +10,12 @@ interface LogoutButtonProps {
 }
 
 export function LogoutButton({ className = '', label = 'Sair' }: LogoutButtonProps) {
-	const { refresh } = useRouter()
+	const { replace } = useRouter()
 	const logout = async () => {
 		try {
-			await Fetcher
-				.baseURL()
-				.post('/api/logout')
-
-			refresh()
+			await makeHttpClient().post('/api/logout')
+			replace('/login')
 		} catch (e) { toast.error(e.message) }
-
 	}
 
 	return (

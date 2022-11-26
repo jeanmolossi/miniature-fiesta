@@ -1,8 +1,7 @@
-import constants from "@/constants";
 import { cookies } from "next/headers";
 import { Meta } from "domain/misc/meta";
 import { Wallet } from "domain/wallets/wallet";
-import { Fetcher } from "../helpers/fetcher";
+import { makeHttpClient } from "../server/factory/http-client";
 
 interface WalletsList {
 	payments: Wallet[];
@@ -15,22 +14,17 @@ export interface GetAccountFilters {
 }
 
 export async function getAccountWallets({ account, relations }: GetAccountFilters) {
-	const options: Partial<GetAccountFilters> = {}
+	const query = new URLSearchParams()
 
-	if (account) Object.assign(options, { account })
-	if (relations) Object.assign(options, { relations })
+	if (account) query.append('account', account)
+	if (relations) query.append('relations', relations.join(','))
+	query.append('sort', 'created_at,desc')
 
-	const { data, isError } = await Fetcher
-		.baseURL(constants.API_BASE_URL)
-		.applyCookies(cookies())
-		.setBody({
-			sort: 'created_at,desc',
-			...options,
+	const { data } = await makeHttpClient()
+		.get<WalletsList>('/payments', {
+			query,
+			cookies: cookies()
 		})
-		.get<WalletsList>('/payments')
-
-	if (isError)
-		throw new Error(data as any)
 
 	return data;
 }

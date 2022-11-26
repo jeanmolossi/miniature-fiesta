@@ -1,8 +1,7 @@
-import constants from "@/constants";
 import { cookies } from "next/headers";
 import { Meta } from "domain/misc/meta";
 import { Transaction } from "domain/transactions/transaction";
-import { Fetcher } from "../helpers/fetcher";
+import { makeHttpClient } from "../server/factory/http-client";
 
 interface TransactionList {
 	transactions: Transaction[]
@@ -26,31 +25,26 @@ export async function getTransactions({
 	start_date,
 	wallet
 }: GetTransactionFilters) {
-	const options = {}
+	const query = new URLSearchParams()
 
 	if (account)
-		Object.assign(options, {account})
+		query.append('account', account)
 
 	if (start_date)
-		Object.assign(options, {start_date})
+		query.append('start_date', start_date)
 
 	if(wallet)
-		Object.assign(options, {wallet})
+		query.append('wallet', wallet)
 
-	const { data, isError } = await Fetcher
-		.baseURL(constants.API_BASE_URL)
-		.applyCookies(cookies())
-		.setBody({
-			page,
-			per_page,
-			sort,
-			relations: 'category',
-			...options
+	query.append('relations', 'category')
+	query.append('page', page.toString())
+	query.append('per_page', per_page.toString())
+	query.append('sort', sort)
+
+	const { data } = await makeHttpClient()
+		.get<TransactionList>('/transactions', {
+			cookies: cookies(),
+			query
 		})
-		.get<TransactionList>('/transactions')
-
-	if (isError)
-		throw new Error(data as any)
-
 	return data
 }

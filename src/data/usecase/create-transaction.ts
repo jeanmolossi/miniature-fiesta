@@ -1,5 +1,5 @@
 import { Transaction, TransactionType } from "domain/transactions/transaction"
-import { Fetcher } from "../helpers/fetcher"
+import { makeHttpClient } from "../client/factory/http-client";
 
 interface CreateTransactionPayload {
 	reference: string;
@@ -10,13 +10,7 @@ interface CreateTransactionPayload {
 }
 
 export async function createTransaction(body: CreateTransactionPayload) {
-	const { isError, data } = await Fetcher
-		.baseURL()
-		.setBody(body)
-		.post<Transaction>('/api/create-transaction')
-
-	if (isError)
-		throw new Error(data as any)
-
+	const { data } = await makeHttpClient()
+		.post<Transaction>('/api/create-transaction', body)
 	return data;
 }

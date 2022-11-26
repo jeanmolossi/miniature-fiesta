@@ -6,10 +6,17 @@ import LeftSide from "app/(unauth)/components/left-side";
 import LoginForm from "app/(unauth)/components/login-form";
 import { refreshToken } from "@/data/usecase/refresh-token";
 
-const refreshPromise = refreshToken()
+const fetchMap = new Map<string, Promise<any>>([]);
+function queryClient(name: string, query: () => Promise<any>) {
+	if (!fetchMap.has(name))
+		fetchMap.set(name, query())
+	return fetchMap.get(name)
+}
+
+export const revalidate = 0
 
 export default function LoginPage() {
-	const authorized = use(refreshPromise)
+	const authorized = use(queryClient('authorization', refreshToken))
 	if (authorized)
 		redirect('/dashboard')
 

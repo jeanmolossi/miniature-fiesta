@@ -1,15 +1,7 @@
 import { CreateAccount, CreatedAccount } from "domain/users/create-account";
-import { Fetcher } from "../helpers/fetcher";
+import { makeHttpClient } from "../client/factory/http-client";
 
 export async function createAccount(accountData: CreateAccount): Promise<CreatedAccount> {
-	const response = await Fetcher
-		.baseURL()
-		.setBody(accountData)
-		.post<CreatedAccount>(`/api/create-account`)
-
-	if (response.isError) {
-		throw new Error(response.data as any)
-	}
-
+	const response = await makeHttpClient().post<CreatedAccount>('/api/create-account', accountData)
 	return response.data
 }
