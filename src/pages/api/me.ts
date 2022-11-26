@@ -32,7 +32,6 @@ async function getMe({ accessToken, refreshToken }) {
 
 		return { isError: status > 399, statusCode: status, data, headers }
 	} catch (e) {
-		console.log('Get Me err msg', e.message)
 		return { isError: true, statusCode: e.statusCode ?? 500, data: null, headers: null }
 	}
 }

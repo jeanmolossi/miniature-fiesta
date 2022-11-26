@@ -54,7 +54,6 @@ async function makeRefresh({ accessToken, refreshToken }) {
 			{ headers },
 		)
 	} catch (e) {
-		console.log(e.message)
 		return { headers: null }
 	}
 
