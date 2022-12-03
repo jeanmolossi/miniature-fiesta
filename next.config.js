@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
 	reactStrictMode: true,
 	experimental: {
@@ -12,6 +14,9 @@ module.exports = {
 		// !! WARN !!
 		ignoreBuildErrors: true,
 	},
+	assetPrefix: isProd
+		? 'https://cdn.jeanmolossi.com.br'
+		: undefined,
 	async headers() {
 		return [
 			{
