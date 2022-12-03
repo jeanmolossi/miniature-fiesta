@@ -52,7 +52,7 @@ export default function NewCategoryForm({ categories }: NewCategoryFormProps) {
 		} catch (e) {
 			toast.error(e.message)
 		}
-	}, [])
+	}, [replace])
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-12 gap-4">
