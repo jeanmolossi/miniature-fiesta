@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogoutButton } from "app/(auth)/logout.button";
+import { LogoutButton } from "src/app/(auth)/logout.button";
 import { links } from "./link-tree";
 
 export default function MobileSidebar() {
