@@ -23,8 +23,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# https://www.alexhyett.com/terraform-s3-static-website-hosting/#s3tf
-
 resource "aws_s3_bucket" "this" {
   bucket        = format("cdn-%s.%s", lower(var.project_name), var.route53_zone_name)
   acl           = "public-read"

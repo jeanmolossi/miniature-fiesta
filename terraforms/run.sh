@@ -1,6 +1,23 @@
 #!/bin/bash
 ACTION=$1
 
+ENV_FILE="$PWD/.env.development.local"
+
+if [ ! -f "$ENV_FILE" ]; then
+	ENV_FILE="$PWD/.env.local"
+fi
+
+if [ ! -f "$ENV_FILE" ]; then
+	ENV_FILE="$PWD/.env"
+fi
+
+if [ ! -f "$ENV_FILE" ]; then
+	ENV_FILE="$PWD/.env.example"
+fi
+
+DB_USER=$(cat $ENV_FILE | sed '/^DB_USER=*/!d; s///;q')
+DB_PASS=$(cat $ENV_FILE | sed '/^DB_PASSWORD=*/!d; s///;q')
+
 cmdPath="$PWD/terraforms"
 configPath="configs"
 baseVarFile="base.tfvars"
@@ -31,6 +48,7 @@ function plan {
         terraform plan \
             -var-file="$baseVarsFile" \
             -var-file="$appVarsFile" \
+			-var "rds_user={\"username\": \"$DB_USER\", \"password\": \"$DB_PASS\"}" \
             -out="$service.plan"
         cd ../../
     done
@@ -43,6 +61,7 @@ function apply {
         terraform apply \
             -var-file="$baseVarsFile" \
             -var-file="$appVarsFile" \
+			-var "rds_user={\"username\": \"$DB_USER\", \"password\": \"$DB_PASS\"}" \
             -auto-approve
         cd ../../
     done
@@ -57,6 +76,7 @@ function destroy {
         terraform destroy \
             -var-file="$baseVarsFile" \
             -var-file="$appVarsFile" \
+			-var "rds_user={\"username\": \"$DB_USER\", \"password\": \"$DB_PASS\"}" \
             -auto-approve
         cd ../../
     done

@@ -30,6 +30,17 @@ variable "route53_zone_name" {
 
 // -------- App vars
 
+variable "ecs" {
+  type = object({
+    container_name   = string
+    container_port   = number
+    healthcheck_path = string
+  })
+  description = "The ecs container configuration"
+}
+
+// -------- App vars
+
 variable "rds" {
   type = object({
     is_public             = bool

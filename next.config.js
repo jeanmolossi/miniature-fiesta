@@ -17,6 +17,10 @@ module.exports = {
 	assetPrefix: isProd
 		? 'https://cdn.jeanmolossi.com.br'
 		: undefined,
+	poweredByHeader: false,
+	httpAgentOptions: {
+		keepAlive: false,
+	},
 	async headers() {
 		return [
 			{

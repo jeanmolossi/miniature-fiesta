@@ -30,12 +30,11 @@ variable "route53_zone_name" {
 
 // -------- App vars
 
-variable "rds" {
+variable "ecr" {
   type = object({
-    is_public             = bool
-    backup_retention_days = number
-    storage_type          = string
+    max_old_images = number
   })
+  description = "The ecr image configuration"
 }
 
 variable "rds_user" {
