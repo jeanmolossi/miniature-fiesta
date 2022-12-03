@@ -24,8 +24,9 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "this" {
-  bucket = format("cdn-%s", lower(var.project_name))
-  acl    = "public-read"
+  bucket        = format("cdn-%s", lower(var.project_name))
+  acl           = "public-read"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_policy" "this" {
