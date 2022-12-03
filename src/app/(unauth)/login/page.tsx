@@ -2,8 +2,8 @@
 
 import { use } from "react";
 import { redirect } from "next/navigation";
-import LeftSide from "app/(unauth)/components/left-side";
-import LoginForm from "app/(unauth)/components/login-form";
+import LeftSide from "src/app/(unauth)/components/left-side";
+import LoginForm from "src/app/(unauth)/components/login-form";
 import { refreshToken } from "@/data/usecase/refresh-token";
 
 const fetchMap = new Map<string, Promise<any>>([]);
